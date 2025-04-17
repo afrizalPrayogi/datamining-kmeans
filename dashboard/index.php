@@ -19,7 +19,7 @@ if (!isset($_SESSION["login"]) || $_SESSION["login"] !== true) {
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/logo/toyicon.jpg">
     <title>Dashboard - Data Mining</title>
     <!-- Custom CSS -->
     <link href="../assets/dist/css/style.min.css" rel="stylesheet">
@@ -91,9 +91,8 @@ if (!isset($_SESSION["login"]) || $_SESSION["login"] !== true) {
                                         <div class="card shadow-sm" style="height : 19rem; background-color: #FFFFFF; background-position: calc(100% + 1rem) bottom; background-size: 30% auto; background-repeat: no-repeat; background-image: url(../assets/images/background/rhone.svg);">
                                             <div class=" px-4 mt-4">
                                                 <h4 class="text-primary"> <b>Selamat Datang, <?= $_SESSION["nama"]; ?></b> </h4>
-                                                <h4 class="text-black-60 mb-0">Aplikasi Data Mining Untuk Warung rina</h4>
-                                                <h4 class="text-black-60 mb-0">Di Daerah Depok Menggunakan Algoritma K-Means</h4>
-                                                <h4 class="text-black-60 mb-0">(Studi Kasus : Warung Bu rina)</h4>
+                                                <h4 class="text-black-60 mb-0">Rancang Bangun Sistem Data Mining untuk Analisis Tren Penjualan dengan Algoritma K-Means </h4>
+                                                <h4 class="text-black-60 mb-0">(Studi Kasus: Toko Mainan Berkah 3R)</h4>
                                             </div>
                                         </div>
                                     </div>

@@ -51,7 +51,7 @@ if (isset($_POST["login"])) {
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/logo/logo_mms.jpeg">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/logo/toyicon.jpg">
     <title>Login</title>
 
     <!-- page css -->
@@ -94,9 +94,9 @@ if (isset($_POST["login"])) {
                     <?php endif; ?>
                     <form class="form-horizontal form-material" id="loginform" action="" method="POST">
                         <div class="text-center">
-                            <a href="../login" class="db"><img src="../assets/images/logo/logo-mms-removebg (1).png" style="width: 260px; height: 55px" alt="Home" /><br /></a>
+                            <a href="../login" class="db"><img src="../assets/images/logo/toylogo.jpg" style="width: 200px; height: auto" alt="Home" /><br /></a>
                         </div>
-                        <h3 class="text-center m-t-20 m-b-10">Sign In</h3>
+                        <h3 class="text-justify m-t-5 m-b-20">Rancang Bangun Sistem Data Mining untuk Analisis Tren Penjualan dengan Algoritma K-Means (Studi Kasus: Toko Mainan Berkah 3R)</h3>
                         <div class="form-group ">
                             <div class="col-xs-12">
                                 <input class="form-control" id="username" name="username" type="text" required="" placeholder="Username atau Email" autocomplete="off">

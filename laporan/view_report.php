@@ -24,7 +24,7 @@ if (empty($laporan)) {
 
 $hasil_akhir = query("SELECT 
                 laporan_hasil_akhir.id, 
-                laporan_hasil_akhir.nama_kelurahan, 
+                laporan_hasil_akhir.nama_barang, 
                 laporan_hasil_akhir.nama_cluster, 
                 laporan_hasil_akhir_atribut.nama_atribut, 
                 laporan_hasil_akhir_atribut.nilai
@@ -46,7 +46,7 @@ $hasil_akhir = query("SELECT
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/logo/favicon-16x16.png">
     <title>Detail Hasil Proses Perhitungan - Data Mining</title>
     <link href="../assets/dist/css/style.min.css" rel="stylesheet">
     <link href="../assets/node_modules/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet" />
@@ -94,7 +94,7 @@ $hasil_akhir = query("SELECT
                                             <table class="table table-bordered">
                                                 <thead>
                                                     <tr>
-                                                        <th>Nama Kelurahan</th>
+                                                        <th>Nama Barang</th></th>
                                                         <?php
                                                         // Ambil atribut unik
                                                         $atribut_unik = [];
@@ -111,17 +111,17 @@ $hasil_akhir = query("SELECT
                                                 </thead>
                                                 <tbody>
                                                     <?php
-                                                    // Organize data by kelurahan
-                                                    $data_by_kelurahan = [];
+                                                    // Organize data by barang
+                                                    $data_by_barang = [];
                                                     foreach ($hasil_akhir as $data) {
-                                                        $data_by_kelurahan[$data['nama_kelurahan']]['cluster'] = $data['nama_cluster'];
-                                                        $data_by_kelurahan[$data['nama_kelurahan']]['atribut'][$data['nama_atribut']] = $data['nilai'];
+                                                        $data_by_barang[$data['nama_barang']]['cluster'] = $data['nama_cluster'];
+                                                        $data_by_barang[$data['nama_barang']]['atribut'][$data['nama_atribut']] = $data['nilai'];
                                                     }
 
                                                     // Display data
-                                                    foreach ($data_by_kelurahan as $kelurahan => $data) : ?>
+                                                    foreach ($data_by_barang as $barang => $data) : ?>
                                                         <tr>
-                                                            <td><?= $kelurahan; ?></td>
+                                                            <td><?= $barang; ?></td>
                                                             <?php foreach ($atribut_unik as $atribut) : ?>
                                                                 <td><?= $data['atribut'][$atribut] ?? '-'; ?></td>
                                                             <?php endforeach; ?>

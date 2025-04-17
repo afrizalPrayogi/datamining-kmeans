@@ -40,7 +40,7 @@ $user = query("SELECT * FROM users WHERE id = $id")[0];
                     </a>
                 </li>
                 <li>
-                    <a class="waves-effect waves-dark" href="../data_kelurahan" aria-expanded="false">
+                    <a class="waves-effect waves-dark" href="../data_barang" aria-expanded="false">
                         <i class="far fa-circle text-success"></i>
                         <span class="hide-menu">Data Barang</span>
                     </a>
@@ -53,7 +53,7 @@ $user = query("SELECT * FROM users WHERE id = $id")[0];
                 </li>
                 <li class="nav-small-cap">--- NILAI DATA</li>
                 <li>
-                    <a class="waves-effect waves-dark" href="../nilai_kelurahan" aria-expanded="false">
+                    <a class="waves-effect waves-dark" href="../nilai_barang" aria-expanded="false">
                         <i class="far fa-circle text-danger"></i>
                         <span class="hide-menu">Nilai Barang</span>
                     </a>

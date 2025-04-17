@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once '../functions.php';
 
-$kelurahan = query("SELECT * FROM kelurahan");
+$barang = query("SELECT * FROM data_barang");
 $atribut = query("SELECT * FROM atribut");
 $id_laporan = $_GET['id'];
 
@@ -14,7 +14,7 @@ if (empty($laporan)) {
 
 $hasil_akhir = query("SELECT 
                 laporan_hasil_akhir.id, 
-                laporan_hasil_akhir.nama_kelurahan, 
+                laporan_hasil_akhir.nama_barang, 
                 laporan_hasil_akhir.nama_cluster, 
                 laporan_hasil_akhir_atribut.nama_atribut, 
                 laporan_hasil_akhir_atribut.nilai
@@ -82,7 +82,7 @@ $html = '<!DOCTYPE html>
    <p class="card-subtitle">Tanggal Laporan : ' . $laporan[0]['tanggal_laporan'] . '</p>
    <table>
        <tr>
-           <th>Nama Kelurahan</th>';
+           <th>Nama Barang</th>';
 
 // Ambil atribut unik
 $atribut_unik = [];
@@ -98,17 +98,17 @@ $html .= '<th>Cluster</th>
        </tr>
        <tbody>';
 
-// Organize data by kelurahan
-$data_by_kelurahan = [];
+// Organize data by barang
+$data_by_barang = [];
 foreach ($hasil_akhir as $data) {
-    $data_by_kelurahan[$data['nama_kelurahan']]['cluster'] = $data['nama_cluster'];
-    $data_by_kelurahan[$data['nama_kelurahan']]['atribut'][$data['nama_atribut']] = $data['nilai'];
+    $data_by_barang[$data['nama_barang']]['cluster'] = $data['nama_cluster'];
+    $data_by_barang[$data['nama_barang']]['atribut'][$data['nama_atribut']] = $data['nilai'];
 }
 
 // Display data
-foreach ($data_by_kelurahan as $kelurahan => $data) {
+foreach ($data_by_barang as $barang => $data) {
     $html .= '<tr>
-                <td>' . $kelurahan . '</td>';
+                <td>' . $barang . '</td>';
     foreach ($atribut_unik as $atribut) {
         $html .= '<td>' . ($data['atribut'][$atribut] ?? '-') . '</td>';
     }

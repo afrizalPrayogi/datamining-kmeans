@@ -33,4 +33,4 @@ $html .= '</table>
 </html>';
 
 $mpdf->WriteHTML($html);
-$mpdf->Output('data_cluster.pdf', 'I');
+$mpdf->Output('Data_Cluster.pdf', 'I');

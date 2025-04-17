@@ -16,7 +16,7 @@ $html = '<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Data Nilai Kelurahan</title>
+    <title>Data Nilai Cluster</title>
     <style>
         body {
             font-family: sans-serif;

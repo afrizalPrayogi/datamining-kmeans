@@ -141,7 +141,10 @@ File: scss
       color: #8d97ad; }
   @media (min-width: 768px) {
     .skin-blue-dark.mini-sidebar .sidebar-nav #sidebarnav > li > ul, .skin-blue-dark.mini-sidebar .sidebar-nav #sidebarnav > li:hover > a {
-      background: #1f2023; } }
+      background: #1f2023; } 
+      .skin-blue-dark .topbar .top-navbar .navbar-header .navbar-brand .dark-logo {
+        display: none; }
+      }
 
 .skin-default-dark {
   /*Theme Colors*/ }
@@ -171,7 +174,9 @@ File: scss
       color: #8d97ad; }
   @media (min-width: 768px) {
     .skin-default-dark.mini-sidebar .sidebar-nav #sidebarnav > li > ul, .skin-default-dark.mini-sidebar .sidebar-nav #sidebarnav > li:hover > a {
-      background: #1f2023; } }
+      background: #1f2023; } 
+      .skin-blue-dark .topbar .top-navbar .navbar-header .navbar-brand .dark-logo {
+        display: none; }}
 
 .skin-green-dark {
   /*Theme Colors*/ }
@@ -231,7 +236,9 @@ File: scss
       color: #8d97ad; }
   @media (min-width: 768px) {
     .skin-red-dark.mini-sidebar .sidebar-nav #sidebarnav > li > ul, .skin-red-dark.mini-sidebar .sidebar-nav #sidebarnav > li:hover > a {
-      background: #1f2023; } }
+      background: #1f2023; } 
+      .skin-blue-dark .topbar .top-navbar .navbar-header .navbar-brand .dark-logo {
+        display: none; }}
 
 .skin-megna-dark {
   /*Theme Colors*/ }
@@ -261,7 +268,9 @@ File: scss
       color: #8d97ad; }
   @media (min-width: 768px) {
     .skin-megna-dark.mini-sidebar .sidebar-nav #sidebarnav > li > ul, .skin-megna-dark.mini-sidebar .sidebar-nav #sidebarnav > li:hover > a {
-      background: #1f2023; } }
+      background: #1f2023; } 
+      .skin-blue-dark .topbar .top-navbar .navbar-header .navbar-brand .dark-logo {
+        display: none; }}
 
 .skin-purple-dark {
   /*Theme Colors*/ }
@@ -291,7 +300,9 @@ File: scss
       color: #8d97ad; }
   @media (min-width: 768px) {
     .skin-purple-dark.mini-sidebar .sidebar-nav #sidebarnav > li > ul, .skin-purple-dark.mini-sidebar .sidebar-nav #sidebarnav > li:hover > a {
-      background: #1f2023; } }
+      background: #1f2023; } 
+      .skin-blue-dark .topbar .top-navbar .navbar-header .navbar-brand .dark-logo {
+        display: none; }}
 
 /*!
  * Bootstrap v5.0.2 (https://getbootstrap.com/)

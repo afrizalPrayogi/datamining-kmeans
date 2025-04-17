@@ -6,21 +6,21 @@ if (!isset($_SESSION["login"]) || $_SESSION["login"] !== true) {
     exit;
 }
 
-// Ambil data kelurahan dan atribut
-$kelurahan = query("SELECT * FROM kelurahan ORDER BY id_kelurahan");
+// Ambil data barang dan atribut
+$barang = query("SELECT * FROM data_barang ORDER BY id_barang");
 $atribut = query("SELECT * FROM atribut ORDER BY id_atribut");
 $cluster = query("SELECT * FROM cluster ORDER BY id_cluster");
 
-if (!$kelurahan || !$atribut || !$cluster) {
+if (!$barang || !$atribut || !$cluster) {
     die("Error fetching data from database.");
 }
 
-// Ambil nilai kelurahan untuk setiap atribut
+// Ambil nilai barang untuk setiap atribut
 $data = [];
-foreach ($kelurahan as $kel) {
+foreach ($barang as $bar) {
     $row = [];
     foreach ($atribut as $attr) {
-        $nilai = query("SELECT nilai FROM nilai_kelurahan WHERE id_kelurahan = " . $kel['id_kelurahan'] . " AND id_atribut = " . $attr['id_atribut']);
+        $nilai = query("SELECT nilai FROM data_nilai_barang WHERE id_barang = " . $bar['id_barang'] . " AND id_atribut = " . $attr['id_atribut']);
         if ($nilai) {
             $row[] = $nilai[0]['nilai'];
         } else {
@@ -71,7 +71,7 @@ $actualIterations = $result['iteration'];
 // Mengatur zona waktu
 date_default_timezone_set('Asia/Jakarta');
 if (isset($_POST['iterasi'])) {
-    simpanhasilakhir($centroids, $clusters, $history, $_SESSION['id'], date('Y-m-d H:i:s'), $kelurahan, $data, $atribut, $actualIterations);
+    simpanhasilakhir($centroids, $clusters, $history, $_SESSION['id'], date('Y-m-d H:i:s'), $barang, $data, $atribut, $actualIterations);
 }
 
 ?>
@@ -85,7 +85,7 @@ if (isset($_POST['iterasi'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/logo/toyicon.jpg">
     <title>Proses Perhitungan - Data Mining</title>
     <link href="../assets/dist/css/style.min.css" rel="stylesheet">
     <link href="../assets/node_modules/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet" />
@@ -184,7 +184,7 @@ if (isset($_POST['iterasi'])) {
                                                         <?php foreach ($initialResult['clusters'] as $clusterId => $clusterData) : ?>
                                                             <?php foreach ($clusterData as $dataIndex) : ?>
                                                                 <tr>
-                                                                    <td><?= $kelurahan[$dataIndex]['nama_kelurahan'] ?></td>
+                                                                    <td><?= $barang[$dataIndex]['nama_barang'] ?></td>
                                                                     <?php foreach ($data[$dataIndex] as $value) : ?>
                                                                         <td><?= number_format($value) ?></td>
                                                                     <?php endforeach; ?>
@@ -256,7 +256,7 @@ if (isset($_POST['iterasi'])) {
                                                             <?php foreach ($iteration['clusters'] as $clusterId => $clusterData) : ?>
                                                                 <?php foreach ($clusterData as $dataIndex) : ?>
                                                                     <tr>
-                                                                        <td><?= $kelurahan[$dataIndex]['nama_kelurahan'] ?></td>
+                                                                        <td><?= $barang[$dataIndex]['nama_barang'] ?></td>
                                                                         <?php foreach ($data[$dataIndex] as $value) : ?>
                                                                             <td><?= number_format($value) ?></td>
                                                                         <?php endforeach; ?>
@@ -318,5 +318,3 @@ if (isset($_POST['iterasi'])) {
     <script src="../assets/node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
     <script src="../assets/node_modules/sweetalert2/sweet-alert.init.js"></script>
 </body>
-
-</html>

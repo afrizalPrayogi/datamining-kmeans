@@ -1,5 +1,5 @@
 <?php
-$db = mysqli_connect("localhost", "root", "", "dev-datamining");
+$db = mysqli_connect("localhost", "root", "", "db_datamining");
 
 function query($query)
 {
@@ -246,20 +246,20 @@ function deleteAtribut($id_atribut)
 }
 
 
-function addKelurahan($data)
+function addBarang($data)
 {
     global $db;
-    $id_kelurahan = htmlspecialchars($data["id_kelurahan"]);
-    $nama_kelurahan = htmlspecialchars($data["nama_kelurahan"]);
+    $id_barang = htmlspecialchars($data["id_barang"]);
+    $nama_barang = htmlspecialchars($data["nama_barang"]);
 
-    $query = "SELECT * FROM kelurahan WHERE nama_kelurahan = '$nama_kelurahan' AND id_kelurahan != $id_kelurahan";
+    $query = "SELECT * FROM data_barang WHERE nama_barang = '$nama_barang' AND id_barang != $id_barang";
     $result = mysqli_query($db, $query);
     if (mysqli_fetch_assoc($result)) {
         return -1;
     }
 
     // Periksa apakah ID atribut sudah ada
-    $query_id = "SELECT * FROM kelurahan WHERE id_kelurahan = $id_kelurahan";
+    $query_id = "SELECT * FROM data_barang WHERE id_barang = $id_barang";
     $result_id = mysqli_query($db, $query_id);
 
     if (mysqli_fetch_assoc($result_id)) {
@@ -267,38 +267,45 @@ function addKelurahan($data)
         return -2;
     }
 
-    $query = "INSERT INTO kelurahan VALUES 
-    ('$id_kelurahan', '$nama_kelurahan')";
-
+    $query = "INSERT INTO data_barang VALUES 
+    ('$id_barang', '$nama_barang')";
     mysqli_query($db, $query);
+
+    $query1 = "INSERT INTO data_nilai_barang (id_atribut, id_barang, nilai) VALUES('1', '$id_barang', 0)";
+    $result1 =mysqli_query($db, $query1);
+
+    $query2 = "INSERT INTO data_nilai_barang (id_atribut, id_barang, nilai) VALUES('2', '$id_barang', 0)";
+    $result2 = mysqli_query($db, $query2);
+
+
     return mysqli_affected_rows($db);
 }
 
-function editKelurahan($data)
+function editBarang($data)
 {
     global $db;
-    $id_kelurahan = ($data["id_kelurahan"]);
-    $nama_kelurahan = htmlspecialchars($data["nama_kelurahan"]);
+    $id_barang = ($data["id_barang"]);
+    $nama_barang = htmlspecialchars($data["nama_barang"]);
 
     // Periksa apakah nama atribut sudah ada, tetapi abaikan baris yang sedang diedit
-    $query = "SELECT * FROM kelurahan WHERE nama_kelurahan = '$nama_kelurahan' AND id_kelurahan != $id_kelurahan";
+    $query = "SELECT * FROM data_barang WHERE nama_barang = '$nama_barang' AND id_barang != $id_barang";
     $result = mysqli_query($db, $query);
 
     if (mysqli_fetch_assoc($result)) {
         return -1;
     }
 
-    $query = "UPDATE kelurahan SET 
-        nama_kelurahan = '$nama_kelurahan' WHERE id_kelurahan = $id_kelurahan";
+    $query = "UPDATE data_barang SET 
+        nama_barang = '$nama_barang' WHERE id_barang = $id_barang";
     mysqli_query($db, $query);
 
     return mysqli_affected_rows($db);
 }
 
-function deleteKelurahan($id_kelurahan)
+function deleteBarang($id_barang)
 {
     global $db;
-    mysqli_query($db, "DELETE FROM kelurahan WHERE id_kelurahan = $id_kelurahan");
+    mysqli_query($db, "DELETE FROM data_barang WHERE id_barang = $id_barang");
     return mysqli_affected_rows($db);
 }
 
@@ -360,44 +367,44 @@ function deleteCluster($id_cluster)
 }
 
 
-function dataPostKelurahan($postData, $getData)
+function dataPostbarang($postData, $getData)
 {
     foreach ($postData as $key => $value) {
-        if ($key == 'id_kelurahan' || $key == 'submit') {
+        if ($key == 'id_barang' || $key == 'submit') {
             continue;
         }
 
         // Tambahkan nama variabel ke dalam array
-        $querySelect = query("SELECT * FROM nilai_kelurahan WHERE id_atribut = " . $key . " AND id_kelurahan = " . $getData['id_kelurahan']);
+        $querySelect = query("SELECT * FROM data_nilai_barang WHERE id_atribut = " . $key . " AND id_barang = " . $getData['id_barang']);
 
         if (count($querySelect) > 0) {
-            editnilaiKelurahan($postData, $getData, $key);
+            editnilaibarang($postData, $getData, $key);
         } else {
-            tambahnilaiKelurahan($postData, $getData, $key);
+            tambahnilaibarang($postData, $getData, $key);
         }
     }
 }
 
 
-function editnilaiKelurahan($post, $get, $key)
+function editnilaibarang($post, $get, $key)
 {
     global $db;
-    $query = "UPDATE nilai_kelurahan SET 
-    nilai = " . $post[$key] . " WHERE id_atribut = " . $key . " AND id_kelurahan = " . $get['id_kelurahan'];
+    $query = "UPDATE data_nilai_barang SET 
+    nilai = " . $post[$key] . " WHERE id_atribut = " . $key . " AND id_barang = " . $get['id_barang'];
     mysqli_query($db, $query);
 
     return mysqli_affected_rows($db);
 }
 
-function tambahnilaiKelurahan($post, $get, $key)
+function tambahnilaibarang($post, $get, $key)
 {
     global $db;
 
-    $query = "INSERT INTO nilai_kelurahan VALUES 
+    $query = "INSERT INTO data_nilai_barang VALUES 
     (
       " . $key . ", 
        '',
-       " . $get['id_kelurahan'] . ",
+       " . $get['id_barang'] . ",
        $post[$key]
     )";
 
@@ -405,10 +412,10 @@ function tambahnilaiKelurahan($post, $get, $key)
     return mysqli_affected_rows($db);
 }
 
-function deletenilaiKelurahan($id_kelurahan)
+function deletenilaibarang($id_barang)
 {
     global $db;
-    mysqli_query($db, "DELETE FROM nilai_kelurahan WHERE id_kelurahan = $id_kelurahan");
+    mysqli_query($db, "DELETE FROM nilai_barang WHERE id_barang = $id_barang");
     return mysqli_affected_rows($db);
 }
 
@@ -481,27 +488,27 @@ function searchCluster($keyword)
     return query($query);
 }
 
-function searchKelurahan($keyword)
+function searchBarang($keyword)
 {
-    $query = "SELECT * FROM kelurahan WHERE
-                nama_kelurahan LIKE '%$keyword%' OR
-                id_kelurahan LIKE '%$keyword'
+    $query = "SELECT * FROM data_barang WHERE
+                nama_barang LIKE '%$keyword%' OR
+                id_barang LIKE '%$keyword'
              ";
     return query($query);
 }
 
-function searchNilaiKelurahan($keyword)
+function searchNilaibarang($keyword)
 {
-    $query = "SELECT * FROM kelurahan WHERE
-                nama_kelurahan LIKE '%$keyword%'
+    $query = "SELECT * FROM barang WHERE
+                nama_barang LIKE '%$keyword%'
              ";
     return query($query);
 }
 
 function searchNilaiCluster($keyword)
 {
-    $query = "SELECT * FROM kelurahan WHERE
-                nama_kelurahan LIKE '%$keyword%'
+    $query = "SELECT * FROM barang WHERE
+                nama_barang LIKE '%$keyword%'
              ";
     return query($query);
 }
@@ -672,7 +679,7 @@ function getInitialClusters($data, $initialCentroids)
 }
 
 
-function simpanhasilakhir($centroids, $clusters, $history, $id_user, $dateReport, $kelurahan, $data, $atribut, $actualIterations)
+function simpanhasilakhir($centroids, $clusters, $history, $id_user, $dateReport, $barang, $data, $atribut, $actualIterations)
 {
     global $db;
 
@@ -684,10 +691,10 @@ function simpanhasilakhir($centroids, $clusters, $history, $id_user, $dateReport
         // Masukkan data ke tabel laporan_hasil_akhir
         foreach ($clusters as $clusterId => $clusterData) {
             foreach ($clusterData as $dataIndex) {
-                $nama_kelurahan = $kelurahan[$dataIndex]['nama_kelurahan'];
+                $nama_barang = $barang[$dataIndex]['nama_barang'];
                 $nama_cluster = 'Cluster ' . ($clusterId + 1);
 
-                $query = "INSERT INTO laporan_hasil_akhir (id_laporan, nama_kelurahan, nama_cluster) VALUES ('$id_laporan', '$nama_kelurahan', '$nama_cluster')";
+                $query = "INSERT INTO laporan_hasil_akhir (id_laporan, nama_barang, nama_cluster) VALUES ('$id_laporan', '$nama_barang', '$nama_cluster')";
                 if (mysqli_query($db, $query)) {
                     $id_laporan_hasil_akhir = mysqli_insert_id($db);
 

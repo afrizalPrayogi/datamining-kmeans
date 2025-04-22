@@ -9,6 +9,8 @@ if (!isset($_SESSION["login"]) || $_SESSION["login"] !== true) {
 $id_user = $_SESSION["id"];
 $user_role = $_SESSION["role"];
 
+$page = 'laporan';
+
 ?>
 
 

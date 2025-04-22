@@ -22,6 +22,8 @@ if ($halamanAktif > $jumlahHalaman) {
     exit();
 }
 
+$page = 'data_cluster';
+
 ?>
 
 <!DOCTYPE html>

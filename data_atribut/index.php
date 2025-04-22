@@ -22,6 +22,8 @@ if ($halamanAktif > $jumlahHalaman) {
     header("Location: ../data_atribut");
     exit();
 }
+
+$page = "data_atribut";
 ?>
 
 <!DOCTYPE html>

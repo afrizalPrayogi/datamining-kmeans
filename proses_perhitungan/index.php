@@ -74,6 +74,8 @@ if (isset($_POST['iterasi'])) {
     simpanhasilakhir($centroids, $clusters, $history, $_SESSION['id'], date('Y-m-d H:i:s'), $barang, $data, $atribut, $actualIterations);
 }
 
+$page = 'proses_perhitungan';
+
 ?>
 
 <!DOCTYPE html>
@@ -89,6 +91,7 @@ if (isset($_POST['iterasi'])) {
     <title>Proses Perhitungan - Data Mining</title>
     <link href="../assets/dist/css/style.min.css" rel="stylesheet">
     <link href="../assets/node_modules/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body class="skin-megna fixed-layout">

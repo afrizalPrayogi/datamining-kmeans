@@ -19,6 +19,8 @@ if ($halamanAktif > $jumlahHalaman) {
     header("Location: ../data_kelurahan");
     exit();
 }
+
+$page = 'nilai_cluster';
 ?>
 
 <!DOCTYPE html>

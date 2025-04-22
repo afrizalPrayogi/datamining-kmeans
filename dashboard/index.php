@@ -6,6 +6,8 @@ if (!isset($_SESSION["login"]) || $_SESSION["login"] !== true) {
     exit;
 }
 
+$page = 'dashboard';
+
 ?>
 
 <!DOCTYPE html>
@@ -97,6 +99,12 @@ if (!isset($_SESSION["login"]) || $_SESSION["login"] !== true) {
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 py-2">
+                                test
                             </div>
                         </div>
                         <!-- /.row -->

@@ -19,6 +19,8 @@ if ($halamanAktif > $jumlahHalaman) {
     header("Location: ../nilai_barang");
     exit();
 }
+
+$page = 'nilai_barang';
 ?>
 
 <!DOCTYPE html>

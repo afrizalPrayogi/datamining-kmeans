@@ -15,6 +15,68 @@ if (!$barang || !$atribut || !$cluster) {
     die("Error fetching data from database.");
 }
 
+// Proses data untuk clustering
+function processClustering($data) {
+    $labels = [];
+    $cluster1 = [];
+    $cluster2 = [];
+    $cluster3 = [];
+    $colors1 = [];
+    $colors2 = [];
+    $colors3 = [];
+    $klasifikasi = [];
+
+    foreach ($data as $row) {
+        $labels[] = $row['produk'];
+
+        $c1 = $row['c1'];
+        $c2 = $row['c2'];
+        $c3 = $row['c3'];
+        $min = min($c1, $c2, $c3);
+
+        $cluster1[] = $c1;
+        $cluster2[] = $c2;
+        $cluster3[] = $c3;
+
+        // Highlight cluster terdekat
+        $colors1[] = $c1 == $min ? 'rgba(255, 99, 132, 0.9)' : 'rgba(255, 99, 132, 0.2)';
+        $colors2[] = $c2 == $min ? 'rgba(54, 162, 235, 0.9)' : 'rgba(54, 162, 235, 0.2)';
+        $colors3[] = $c3 == $min ? 'rgba(75, 192, 192, 0.9)' : 'rgba(75, 192, 192, 0.2)';
+
+        // Klasifikasi cluster terpilih
+        $mapping = ['c1' => $c1, 'c2' => $c2, 'c3' => $c3];
+        $cluster_terpilih = array_search($min, $mapping); // hasil: c1 / c2 / c3
+        $cluster_num = ($cluster_terpilih === false) ? 'Tidak diketahui' : 'Cluster ' . substr($cluster_terpilih, 1);
+
+        $klasifikasi[] = [
+            "produk" => $row['produk'],
+            "cluster" => $cluster_num
+        ];
+    }
+
+    return [
+        "labels" => $labels,
+        "datasets" => [
+            [
+                "label" => "Cluster 1",
+                "data" => $cluster1,
+                "backgroundColor" => $colors1
+            ],
+            [
+                "label" => "Cluster 2",
+                "data" => $cluster2,
+                "backgroundColor" => $colors2
+            ],
+            [
+                "label" => "Cluster 3",
+                "data" => $cluster3,
+                "backgroundColor" => $colors3
+            ]
+        ],
+        "klasifikasi" => $klasifikasi
+    ];
+}
+
 // Ambil nilai barang untuk setiap atribut
 $data = [];
 foreach ($barang as $bar) {
@@ -92,6 +154,29 @@ $page = 'proses_perhitungan';
     <link href="../assets/dist/css/style.min.css" rel="stylesheet">
     <link href="../assets/node_modules/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #chart-wrapper {
+            overflow-x: auto;
+            padding: 20px;
+        }
+        table {
+            border-collapse: collapse;
+            margin-top: 30px;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background: #f0f0f0;
+        }
+    </style>
 </head>
 
 <body class="skin-megna fixed-layout">
@@ -256,8 +341,14 @@ $page = 'proses_perhitungan';
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <?php foreach ($iteration['clusters'] as $clusterId => $clusterData) : ?>
-                                                                <?php foreach ($clusterData as $dataIndex) : ?>
+                                                            <?php 
+                                                            $productDistance = [];
+                                                            foreach ($iteration['clusters'] as $clusterId => $clusterData) : 
+                                                            
+                                                            ?>
+                                                                <?php foreach ($clusterData as $dataIndex) : 
+                                                                    $productDistance[$dataIndex]['produk'] = $barang[$dataIndex]['nama_barang']; 
+                                                                ?>
                                                                     <tr>
                                                                         <td><?= $barang[$dataIndex]['nama_barang'] ?></td>
                                                                         <?php foreach ($data[$dataIndex] as $value) : ?>
@@ -269,7 +360,12 @@ $page = 'proses_perhitungan';
                                                                             $distances[] = calculateDistance($data[$dataIndex], $centroid);
                                                                         }
                                                                         ksort($distances);
-                                                                        foreach ($distances as $distance) : ?>
+                                                                        $no = 1;
+                                                                        foreach ($distances as $distance) : 
+                                                                            
+                                                                            $productDistance[$dataIndex]['c'. $no] = number_format($distance, 3);
+                                                                            $no++;
+                                                                        ?>
                                                                             <td><?= number_format($distance, 3) ?></td>
                                                                         <?php endforeach; ?>
                                                                         <td><?= number_format(min($distances), 3) ?></td>
@@ -284,6 +380,66 @@ $page = 'proses_perhitungan';
                                         </div>
                                     </div>
                                 <?php endforeach; ?>
+
+                                <!-- grafik iterasi -->
+
+                                <?php  
+                                    $processedData = processClustering($productDistance);
+                                ?>
+
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h2 class="card-title">Grafik Jarak Produk ke Masing-Masing Cluster</h2>
+                                            <div id="chart-wrapper">
+                                                <canvas id="kmeansChart" height="400"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <script>
+                                    const data = <?php echo json_encode($processedData); ?>;
+
+                                    const count = data.labels.length;
+                                    const canvas = document.getElementById('kmeansChart');
+                                    canvas.width = count * 50;
+
+                                    new Chart(canvas.getContext('2d'), {
+                                        type: 'bar',
+                                        data: {
+                                            labels: data.labels,
+                                            datasets: data.datasets
+                                        },
+                                        options: {
+                                            responsive: false,
+                                            plugins: {
+                                                title: {
+                                                    display: true,
+                                                    text: 'Visualisasi Jarak ke Cluster'
+                                                },
+                                                legend: {
+                                                    position: 'top'
+                                                }
+                                            },
+                                            scales: {
+                                                x: {
+                                                    title: {
+                                                        display: true,
+                                                        text: 'Produk'
+                                                    }
+                                                },
+                                                y: {
+                                                    beginAtZero: true,
+                                                    title: {
+                                                        display: true,
+                                                        text: 'Jarak'
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    });
+                                </script>
                             <?php endif; ?>
                         </div> <!-- /.row -->
                     </div><!-- /.container-fluid -->
@@ -307,6 +463,8 @@ $page = 'proses_perhitungan';
         <!-- End footer -->
         <!-- ============================================================== -->
     </div>
+    
+
     <!-- ============================================================== -->
     <!-- End Wrapper -->
     <!-- ============================================================== -->
